@@ -55,6 +55,23 @@ class TTNewsNewsImportJob extends AbstractImportJob {
 	}
 
 	/**
+	 * Get number of runs
+	 *
+	 * @return int
+	 */
+	public function getNumberOfRecordsPerRun()
+	{
+		/**
+		 * If CLI just do them all
+		 */
+		if (defined('TYPO3_cliMode')) {
+			return $this->importDataProviderService->getTotalRecordCount();
+		}
+
+		return parent::getNumberOfRecordsPerRun();
+	}
+
+	/**
 	 * Inject import service
 	 *
 	 * @param NewsImportService $importService
