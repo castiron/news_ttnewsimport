@@ -64,12 +64,21 @@ class TTNewsNewsImportJob extends AbstractImportJob {
 		/**
 		 * If CLI just do them all
 		 */
-		if (defined('TYPO3_cliMode')) {
+		if (static::isCli()) {
 			return $this->importDataProviderService->getTotalRecordCount();
 		}
 
 		return parent::getNumberOfRecordsPerRun();
 	}
+
+    /**
+     * @return bool
+     */
+	protected static function isCli() {
+        return defined('TYPO3_cliMode') || (
+            defined('TYPO3_REQUESTTYPE_CLI') && defined('TYPO3_REQUESTTYPE') && TYPO3_REQUESTTYPE === TYPO3_REQUESTTYPE_BE | TYPO3_REQUESTTYPE_CLI
+        );
+    }
 
 	/**
 	 * Inject import service
